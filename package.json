@@ -1,6 +1,6 @@
 {
   "name": "travis-encrypt",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Encrypts data for use in your travis yml configuration file",
   "repository": {
     "type": "git",
