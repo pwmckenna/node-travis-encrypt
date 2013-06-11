@@ -14,7 +14,7 @@ Options:
 
 ##### using `--name` & `--value`
 ```bash
-travis-encrypt -r pwmckenna/travis-encrypt -n EXAMPLE_ENV_VARIABLE -v asdf
+travis-encrypt -r pwmckenna/node-travis-encrypt -n EXAMPLE_ENV_VARIABLE -v asdf
 > # EXAMPLE_ENV_VARIABLE
 > fsqKj4hKmeB8T28xIkrYZqwM6i9CMvOnUUGXcxgvcroBQyNn/0lNX68UTcjyOmW8oE4yOyHJ+rWLp6qEG \
 > Rjxi+LG/lIqx27bAwIJbEnOZfxBuGCkJrlymsEKz7efE8b2nwgBXzeVNNhu4eg76IwMcgXL5QxrsYhwRMyXGcsOcBA=
@@ -22,7 +22,7 @@ travis-encrypt -r pwmckenna/travis-encrypt -n EXAMPLE_ENV_VARIABLE -v asdf
 
 ##### using `--json`
 ```bash
-travis-encrypt -r pwmckenna/travis-encrypt -j config.json
+travis-encrypt -r pwmckenna/node-travis-encrypt -j config.json
 > # API_KEY
 > EkIAdybOOkDIxHJ2CbDjznQzGawrdSjP6pqBmKtKHFX5H8A5cduBR+zrYh/m5N0p6gl/ttJYjhu6S94QF5PISv \
 > 9zHUceVNC4p4mG90X/ozn2yMU7PiI8Bv/sq+c26jwBoXiH6NsmvB5kj0yA2Nj331s9wIiSOn0TNhI33LP5d/s=
