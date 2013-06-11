@@ -49,6 +49,6 @@ env:
 ## Module
 ```js
 var encrypt = require('travis-encrypt');
-encrypt('pwmckenna/travis-encrypt', 'EXAMPLE_ENV_VARIABLE=asdf').then(function (res) {
+encrypt('pwmckenna/node-travis-encrypt', 'EXAMPLE_ENV_VARIABLE=asdf').then(function (res) {
   // do something with res...
 });
