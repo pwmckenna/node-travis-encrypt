@@ -1,0 +1,39 @@
+{
+  "name": "travis-encrypt",
+  "version": "0.1.0",
+  "description": "Encrypts data for use in your travis yml configuration file",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pwmckenna/node-travis-encrypt.git"
+  },
+  "keywords": [
+    "travis",
+    "travis-ci",
+    "encryption",
+    ".travis.yml"
+  ],
+  "author": "Patrick Williams <pwmckenna@gmail.com>",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "main": "lib/travis-encrypt",
+  "bin": {
+    "travis-encrypt": "./bin/travis-encrypt-cli.js"
+  },
+  "homepage": "https://github.com/pwmckenna/node-travis-encrypt",
+  "bugs": "https://github.com/pwmckenna/node-travis-encrypt/issues",
+  "dependencies": {
+    "q": "~0.9.5",
+    "ursa": "~0.8.0",
+    "request": "~2.21.0",
+    "optimist": "~0.5.2"
+  },
+  "devDependencies": {
+    "grunt": "0.4.0rc7",
+    "grunt-contrib-jshint": "0.1.1rc6",
+    "matchdep": "~0.1.1"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "preferGlobal": true
+}
