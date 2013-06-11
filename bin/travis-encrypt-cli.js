@@ -7,11 +7,12 @@ var path = require('path');
 require('colors');
 
 var argv = optimist
-    .usage('Usage: $0 -s [repository slug] -n [name] -v [value] -j [json file]')
+    .usage('Usage: $0 -r [repository slug] -n [name] -v [value] -j [json file]')
 
-    .string('s')
-    .alias('s', 'slug')
-    .describe('s', 'repository slug')
+    .string('r')
+    .alias('r', 'repo')
+    .alias('r', 'repository')
+    .describe('r', 'repository slug')
     
     .string('n')
     .alias('n', 'name')
@@ -47,8 +48,8 @@ var displayEncryptedValue = function (slug, name, value) {
 if (argv.hasOwnProperty('json')) {
     var json = require(path.resolve(argv.json));
     for (var j in json) {
-        displayEncryptedValue(argv.slug, j, json[j]);
+        displayEncryptedValue(argv.repo, j, json[j]);
     }
 } else {
-    displayEncryptedValue(argv.slug, argv.name, argv.value);
+    displayEncryptedValue(argv.repo, argv.name, argv.value);
 }
