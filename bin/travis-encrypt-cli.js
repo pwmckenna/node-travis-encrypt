@@ -1,18 +1,54 @@
 #!/usr/bin/env node
 process.title = 'travis-encrypt';
 
-var argv = require('optimist')
-    .usage('Usage: $0 --slug [repository slug] --data [data to encrypt]')
-    .demand(['s', 'd'])
+var optimist = require('optimist');
+var encrypt = require('..');
+var path = require('path');
+require('colors');
+
+var argv = optimist
+    .usage('Usage: $0 -s [repository slug] -n [name] -v [value] -j [json file]')
+
     .string('s')
-    .string('d')
     .alias('s', 'slug')
-    .alias('d', 'data')
+    .describe('s', 'repository slug')
+    
+    .string('n')
+    .alias('n', 'name')
+    .describe('n', 'environment variable name to encrypt')
+
+    .string('v')
+    .alias('v', 'value')
+    .describe('v', 'environment variable value to encrypt')
+
+    .string('j')
+    .alias('j', 'json')
+    .describe('j', 'json file with variables to encrypt')
+
+    .check(function (args) {
+        if (!(args.hasOwnProperty('n') && args.hasOwnProperty('v')) &&
+            !args.hasOwnProperty('j')
+        ) {
+            throw 'must provide a key/value pair or a json file of variables to encrypt'
+        }
+    })
     .argv;
 
-var encrypt = require('..');
-encrypt(argv.slug, argv.data).then(function (data) {
-    console.log(data);
-}, function (err) {
-    console.warn(err);
-});
+var displayEncryptedValue = function (slug, name, value) {
+    return encrypt(slug, name + '=' + value).then(function (res) {
+        console.log('# ' + name.grey);
+        console.log(res.green);
+    }, function (err) {
+        console.log('# ' + name.grey);
+        console.warn(err.toString().red);
+    });
+}
+
+if (argv.hasOwnProperty('json')) {
+    var json = require(path.resolve(argv.json));
+    for (var j in json) {
+        displayEncryptedValue(argv.slug, j, json[j]);
+    }
+} else {
+    displayEncryptedValue(argv.slug, argv.name, argv.value);
+}
