@@ -1,4 +1,4 @@
-# Travis-encrypt
+# travis-encrypt
 Encrypt environment variables for use in your travis-ci .travis.yml configuration files.
 
 ## CLI
