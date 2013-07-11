@@ -7,7 +7,7 @@ var path = require('path');
 require('colors');
 
 var argv = optimist
-    .usage('Usage: $0 -r [repository slug] -n [name] -v [value] -j [json file]')
+    .usage('Usage: $0 -r [repository slug] -n [name] -v [value] -j [json file] -u [username] -p [password]')
 
     .string('r')
     .alias('r', 'repo')
