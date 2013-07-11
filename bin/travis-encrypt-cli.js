@@ -26,7 +26,21 @@ var argv = optimist
     .alias('j', 'json')
     .describe('j', 'json file with variables to encrypt')
 
+    .string('u')
+    .alias('u', 'username')
+    .describe('u', 'github username associated with the pro travis repo')
+
+    .string('p')
+    .alias('p', 'password')
+    .describe('p', 'github password for the user associated with the pro travis repo')
+
     .check(function (args) {
+        if ((!args.hasOwnProperty('u') && args.hasOwnProperty('p')) ||
+            (args.hasOwnProperty('u') && !args.hasOwnProperty('p'))
+        ) {
+            throw 'insufficient github credentials';
+        }
+
         if (!(args.hasOwnProperty('n') && args.hasOwnProperty('v')) &&
             !args.hasOwnProperty('j')
         ) {
@@ -35,8 +49,8 @@ var argv = optimist
     })
     .argv;
 
-var displayEncryptedValue = function (slug, name, value) {
-    return encrypt(slug, name + '=' + value).then(function (res) {
+var displayEncryptedValue = function (slug, name, value, username, password) {
+    return encrypt(slug, name + '=' + value, username, password).then(function (res) {
         console.log('# ' + name.grey);
         console.log(res.green);
     }, function (err) {
@@ -48,8 +62,8 @@ var displayEncryptedValue = function (slug, name, value) {
 if (argv.hasOwnProperty('json')) {
     var json = require(path.resolve(argv.json));
     for (var j in json) {
-        displayEncryptedValue(argv.repo, j, json[j]);
+        displayEncryptedValue(argv.repo, j, json[j], argv.username, argv.password);
     }
 } else {
-    displayEncryptedValue(argv.repo, argv.name, argv.value);
+    displayEncryptedValue(argv.repo, argv.name, argv.value, argv.username, argv.password);
 }
