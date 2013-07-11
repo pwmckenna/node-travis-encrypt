@@ -50,12 +50,13 @@ var argv = optimist
     .argv;
 
 var displayEncryptedValue = function (slug, name, value, username, password) {
-    return encrypt(slug, name + '=' + value, username, password).then(function (res) {
+    return encrypt(slug, name + '=' + value, username, password, function (err, res) {
         console.log('# ' + name.grey);
-        console.log(res.green);
-    }, function (err) {
-        console.log('# ' + name.grey);
-        console.warn(err.toString().red);
+        if (err) {
+            console.warn(err.toString().red);
+        } else {
+            console.log(res.green);
+        }
     });
 }
 
