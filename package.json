@@ -1,12 +1,13 @@
 {
   "name": "travis-encrypt",
   "version": "0.2.0",
-  "description": "Encrypts data for use in your travis yml configuration file",
+  "description": "Encrypts data for use in your travis-ci yml configuration file",
   "repository": {
     "type": "git",
     "url": "git://github.com/pwmckenna/node-travis-encrypt.git"
   },
   "keywords": [
+    "travis-pro",
     "travis",
     "travis-ci",
     "encryption",
