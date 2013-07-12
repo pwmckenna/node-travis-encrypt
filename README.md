@@ -45,7 +45,7 @@ travis-encrypt -r pwmckenna/private-repo -n EXAMPLE_ENV_VARIABLE -v asdf -u pwmc
 ```
 
 Take the output and add it as secure environment variables in your *.travis.yml* file.
-> ```yml
+```yml
 language: node_js
 node_js:
     - 0.8
@@ -53,8 +53,6 @@ env:
     global:
         - secure: "XqJtWxYjtjhRO3LzC/iBGLawDP+f/dL6kcUfDzDJPSKhdnXIRQgBE65g58hf1bPh4YowxuyPUnpK5pq6+frYQ6zNsW0AWBMa2dUP1FdSIxdCJNa3UHlMLYhqqECuVvev9A9NCijKBkuOOA+OvNgq9NIQsiS4g+dsaAlpuE72MYc="
 ```
-
-
 
 ## Module
 ```js
@@ -68,3 +66,4 @@ encrypt('pwmckenna/node-travis-encrypt', 'EXAMPLE_ENV_VARIABLE=asdf', function (
 encrypt('pwmckenna/private-repo', 'EXAMPLE_ENV_VARIABLE=asdf', username, password, function (err, blob) {
   
 });
+```
