@@ -44,7 +44,7 @@ var argv = optimist
         if (!(args.hasOwnProperty('n') && args.hasOwnProperty('v')) &&
             !args.hasOwnProperty('j')
         ) {
-            throw 'must provide a key/value pair or a json file of variables to encrypt'
+            throw 'must provide a key/value pair or a json file of variables to encrypt';
         }
     })
     .argv;
@@ -58,7 +58,7 @@ var displayEncryptedValue = function (slug, name, value, username, password) {
             console.log(res.green);
         }
     });
-}
+};
 
 if (argv.hasOwnProperty('json')) {
     var json = require(path.resolve(argv.json));
