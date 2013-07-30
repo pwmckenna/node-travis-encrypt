@@ -7,16 +7,18 @@ var path = require('path');
 require('colors');
 
 var argv = optimist
-    .usage('Usage: $0 -r [repository slug] -n [name] -v [value] -j [json file] -u [username] -p [password]')
+    .usage('Usage: $0 -r [repository slug] -k [key] -v [value] -j [json file] -u [username] -p [password]')
 
     .string('r')
     .alias('r', 'repo')
     .alias('r', 'repository')
     .describe('r', 'repository slug')
     
-    .string('n')
-    .alias('n', 'name')
-    .describe('n', 'environment variable name to encrypt')
+    .string('k')
+    .alias('k', 'key')
+    .alias('k', 'name')
+    .alias('k', 'n')
+    .describe('k', 'environment variable name to encrypt')
 
     .string('v')
     .alias('v', 'value')
