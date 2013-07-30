@@ -3,20 +3,20 @@ Encrypt environment variables for use in your travis-ci .travis.yml configuratio
 
 ## CLI
 ```bash
-Usage: travis-encrypt -r [repository slug] -n [name] -v [value] -j [json file] -u [username] -p [password]
+Usage: travis-encrypt -r [repository slug] -k [key] -v [value] -j [json file] -u [username] -p [password]
 
 Options:
   -r, --repo        repository slug                                                   [string]
-  -n, --name        environment variable name to encrypt                              [string]
+  -k, --key         environment variable key to encrypt                               [string]
   -v, --value       environment variable value to encrypt                             [string]
   -j, --json        json file with variables to encrypt                               [string]
   -u, --username    github username associated with the pro travis repo               [string]
   -p, --password    github password for the user associated with the pro travis repo  [string]
 ```
 
-##### using `--name` & `--value`
+##### using `--key` & `--value`
 ```bash
-travis-encrypt -r pwmckenna/node-travis-encrypt -n EXAMPLE_ENV_VARIABLE -v asdf
+travis-encrypt -r pwmckenna/node-travis-encrypt -k EXAMPLE_ENV_VARIABLE -v asdf
 > # EXAMPLE_ENV_VARIABLE
 > fsqKj4hKmeB8T28xIkrYZqwM6i9CMvOnUUGXcxgvcroBQyNn/0lNX68UTcjyOmW8oE4yOyHJ+rWLp6qEG \
 > Rjxi+LG/lIqx27bAwIJbEnOZfxBuGCkJrlymsEKz7efE8b2nwgBXzeVNNhu4eg76IwMcgXL5QxrsYhwRMyXGcsOcBA=
@@ -38,7 +38,7 @@ travis-encrypt -r pwmckenna/node-travis-encrypt -j config.json
 
 ##### using `--username` & `--password` for Travis-ci Pro
 ```bash
-travis-encrypt -r pwmckenna/private-repo -n EXAMPLE_ENV_VARIABLE -v asdf -u pwmckenna -p password
+travis-encrypt -r pwmckenna/private-repo -k EXAMPLE_ENV_VARIABLE -v asdf -u pwmckenna -p password
 > # EXAMPLE_ENV_VARIABLE
 > fsqKj4hKmeB8T28xIkrYZqwM6i9CMvOnUUGXcxgvcroBQyNn/0lNX68UTcjyOmW8oE4yOyHJ+rWLp6qEG \
 > Rjxi+LG/lIqx27bAwIJbEnOZfxBuGCkJrlymsEKz7efE8b2nwgBXzeVNNhu4eg76IwMcgXL5QxrsYhwRMyXGcsOcBA=
