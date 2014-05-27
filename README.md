@@ -3,7 +3,7 @@ Encrypt environment variables for use in your travis-ci .travis.yml configuratio
 
 ## CLI
 ```bash
-Usage: travis-encrypt -r [repository slug] -k [key] -v [value] -j [json file] -u [username] -p [password]
+Usage: travis-encrypt -r [repository slug] -u [username] -p [password]
 
 Options:
   -r, --repo        repository slug                                                   [string]
@@ -14,31 +14,25 @@ Options:
   -p, --password    github password for the user associated with the pro travis repo  [string]
 ```
 
-##### using `--key` & `--value`
+##### args
 ```bash
-travis-encrypt -r pwmckenna/node-travis-encrypt -k EXAMPLE_ENV_VARIABLE -v asdf
-> # EXAMPLE_ENV_VARIABLE
+travis-encrypt -r pwmckenna/node-travis-encrypt ENV1=VALUE1
+> # ENV1
 > fsqKj4hKmeB8T28xIkrYZqwM6i9CMvOnUUGXcxgvcroBQyNn/0lNX68UTcjyOmW8oE4yOyHJ+rWLp6qEG \
 > Rjxi+LG/lIqx27bAwIJbEnOZfxBuGCkJrlymsEKz7efE8b2nwgBXzeVNNhu4eg76IwMcgXL5QxrsYhwRMyXGcsOcBA=
 ```
 
-##### using `--json`
+##### stdin
 ```bash
-travis-encrypt -r pwmckenna/node-travis-encrypt -j config.json
-> # API_KEY
-> EkIAdybOOkDIxHJ2CbDjznQzGawrdSjP6pqBmKtKHFX5H8A5cduBR+zrYh/m5N0p6gl/ttJYjhu6S94QF5PISv \
-> 9zHUceVNC4p4mG90X/ozn2yMU7PiI8Bv/sq+c26jwBoXiH6NsmvB5kj0yA2Nj331s9wIiSOn0TNhI33LP5d/s=
-> # API_SECRET
-> d88/OV73Y30VXccYuCc31TwuqkWS4zrTpSTCwCop+655QteiSI/wGI9b202w+LmorLlV5n33CA74SETz0NAqMG \
-> U6vbppz8cNEwgKfzUYXcwv9o5DfDACpLw8AcgGeYG3890oBKjIr9OIzJOONTND+6XarOueKLgwouuXUwqc1FM=
-> # EXPRESS_SESSION_SECRET
-> DwKevRdW4YacvZj3nAQI2kLQo5wiGH4PzT/xB2t9IpdnfJ6DMBSoqpavWQGbXfD9ZzN7DgnBvFmvm295LdqIlY \
-> Zc/K0rFFKvQYNCJzKNxxBPTcos3kjDBOgAd2PEgZFGnMfBY59HMqyYnscJEn/3FHi0ju8HRXn0+09KllERLj4=
+echo ENV1=VALUE1 ENV2=VALUE2 | ./bin/travis-encrypt-cli.js -r pwmckenna/node-travis-encrypt
+> # ENV
+> dSVtmeY8PRGTwze0dQJs/PazSbWUtF81w374t9CHWP9/JafgLjxgp6WHQR+RF+3VW74LlgOvD4q1XN2KT+nsN0 \
+> wfeDNlBfD+Ekp1Ohh/Hjgu0957tq8907+KPIjAwJ9xnbd1y37wnjHyMUxLBcMrjzc+m1Vbx5E2gNEeMvApN28=
 ```
 
 ##### using `--username` & `--password` for Travis-ci Pro
 ```bash
-travis-encrypt -r pwmckenna/private-repo -k EXAMPLE_ENV_VARIABLE -v asdf -u pwmckenna -p password
+travis-encrypt -r pwmckenna/private-repo -u pwmckenna -p password EXAMPLE_ENV_VARIABLE
 > # EXAMPLE_ENV_VARIABLE
 > fsqKj4hKmeB8T28xIkrYZqwM6i9CMvOnUUGXcxgvcroBQyNn/0lNX68UTcjyOmW8oE4yOyHJ+rWLp6qEG \
 > Rjxi+LG/lIqx27bAwIJbEnOZfxBuGCkJrlymsEKz7efE8b2nwgBXzeVNNhu4eg76IwMcgXL5QxrsYhwRMyXGcsOcBA=
@@ -61,9 +55,9 @@ encrypt('pwmckenna/node-travis-encrypt', 'EXAMPLE_ENV_VARIABLE=asdf', function (
   // do something with the encrypted data blob...
 });
 
-// also supports encrypting for private travis pro repos, 
+// also supports encrypting for private travis pro repos,
 // though it needs your github credentials to login to travis pro.
 encrypt('pwmckenna/private-repo', 'EXAMPLE_ENV_VARIABLE=asdf', username, password, function (err, blob) {
-  
+
 });
 ```

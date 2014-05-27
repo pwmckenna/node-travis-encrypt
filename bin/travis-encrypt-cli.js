@@ -1,32 +1,19 @@
 #!/usr/bin/env node
 process.title = 'travis-encrypt';
 
-var optimist = require('optimist');
+var yargs = require('yargs');
 var encrypt = require('..');
 var path = require('path');
+var split = require('split');
 require('colors');
 
-var argv = optimist
-    .usage('Usage: $0 -r [repository slug] -k [key] -v [value] -j [json file] -u [username] -p [password]')
+var argv = yargs
+    .usage('Usage: $0 -r [repository slug] -u [username] -p [password]')
 
     .string('r')
     .alias('r', 'repo')
     .alias('r', 'repository')
     .describe('r', 'repository slug')
-    
-    .string('k')
-    .alias('k', 'key')
-    .alias('k', 'name')
-    .alias('k', 'n')
-    .describe('k', 'environment variable name to encrypt')
-
-    .string('v')
-    .alias('v', 'value')
-    .describe('v', 'environment variable value to encrypt')
-
-    .string('j')
-    .alias('j', 'json')
-    .describe('j', 'json file with variables to encrypt')
 
     .string('u')
     .alias('u', 'username')
@@ -42,18 +29,13 @@ var argv = optimist
         ) {
             throw 'insufficient github credentials';
         }
-
-        if (!(args.hasOwnProperty('n') && args.hasOwnProperty('v')) &&
-            !args.hasOwnProperty('j')
-        ) {
-            throw 'must provide a key/value pair or a json file of variables to encrypt';
-        }
     })
     .argv;
 
-var displayEncryptedValue = function (slug, name, value, username, password) {
-    return encrypt(slug, name + '=' + value, username, password, function (err, res) {
-        console.log('# ' + name.grey);
+
+var encryptData = function (data) {
+    encrypt(argv.repo, data, argv.username, argv.password, function (err, res) {
+        console.log('# ' + data.split('=')[0]);
         if (err) {
             console.warn(err.toString().red);
         } else {
@@ -62,11 +44,12 @@ var displayEncryptedValue = function (slug, name, value, username, password) {
     });
 };
 
-if (argv.hasOwnProperty('json')) {
-    var json = require(path.resolve(argv.json));
-    for (var j in json) {
-        displayEncryptedValue(argv.repo, j, json[j], argv.username, argv.password);
+argv._.forEach(encryptData);
+
+process.stdin.on('readable', function () {
+    var buf = process.stdin.read();
+    if (buf) {
+        buf.toString().trim().split(' ').forEach(encryptData);
     }
-} else {
-    displayEncryptedValue(argv.repo, argv.name, argv.value, argv.username, argv.password);
-}
+    process.stdin.end();
+});
