@@ -7,9 +7,6 @@ Usage: travis-encrypt -r [repository slug] -u [username] -p [password]
 
 Options:
   -r, --repo        repository slug                                                   [string]
-  -k, --key         environment variable key to encrypt                               [string]
-  -v, --value       environment variable value to encrypt                             [string]
-  -j, --json        json file with variables to encrypt                               [string]
   -u, --username    github username associated with the pro travis repo               [string]
   -p, --password    github password for the user associated with the pro travis repo  [string]
 ```
@@ -25,9 +22,12 @@ travis-encrypt -r pwmckenna/node-travis-encrypt ENV1=VALUE1
 ##### stdin
 ```bash
 echo ENV1=VALUE1 ENV2=VALUE2 | ./bin/travis-encrypt-cli.js -r pwmckenna/node-travis-encrypt
-> # ENV
+> # ENV1
 > dSVtmeY8PRGTwze0dQJs/PazSbWUtF81w374t9CHWP9/JafgLjxgp6WHQR+RF+3VW74LlgOvD4q1XN2KT+nsN0 \
 > wfeDNlBfD+Ekp1Ohh/Hjgu0957tq8907+KPIjAwJ9xnbd1y37wnjHyMUxLBcMrjzc+m1Vbx5E2gNEeMvApN28=
+> # ENV2
+> eA9USvpYLcLYzmWkrBqNm7baojEp+TfpsYTzHoGXDTlqsX0K7yKRsGtm7bHPOBSBRI6y71iT752NQn93broqwN \
+> 9THCR/ZEYGGA1JgoNrsKYlDFp9G00tTobIoFygDUy940W5X0fySJU87dxLTaGxcbfMkKFAPamnpSEQI2Jkyso=
 ```
 
 ##### using `--username` & `--password` for Travis-ci Pro
