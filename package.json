@@ -1,6 +1,6 @@
 {
   "name": "travis-encrypt",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Encrypts data for use in your travis-ci yml configuration file",
   "repository": {
     "type": "git",
@@ -30,8 +30,9 @@
     "yargs": "~1.2.2"
   },
   "devDependencies": {
-    "grunt": "0.4.0rc7",
+    "grunt": "^0.4.5",
     "grunt-contrib-jshint": "0.1.1rc6",
+    "grunt-release": "^0.7.0",
     "matchdep": "~0.1.1"
   },
   "engines": {
