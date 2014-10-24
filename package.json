@@ -23,11 +23,11 @@
   "homepage": "https://github.com/pwmckenna/node-travis-encrypt",
   "bugs": "https://github.com/pwmckenna/node-travis-encrypt/issues",
   "dependencies": {
-    "ursa": "~0.8.0",
     "colors": "~0.6.0-1",
-    "travis-ci": "~1.0.0",
-    "yargs": "~1.2.2",
-    "split": "~0.3.0"
+    "split": "~0.3.0",
+    "travis-ci": "^2.0.0",
+    "ursa": "~0.8.0",
+    "yargs": "~1.2.2"
   },
   "devDependencies": {
     "grunt": "0.4.0rc7",
