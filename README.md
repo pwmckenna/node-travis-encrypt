@@ -1,6 +1,18 @@
 # travis-encrypt
 Encrypt environment variables for use in your travis-ci .travis.yml configuration files. Now supports Travis-ci Pro!
 
+## Installation
+
+On Debian/Ubuntu, you should install **nodejs-legacy** not
+**nodejs** (see [Stackoverflow](http://stackoverflow.com/questions/21168141/can-not-install-packages-using-node-package-manager-in-ubuntu)
+for more details). Then install via your preferred method, for example
+npm:
+
+```bash
+% sudo apt-get install nodejs-legacy npm
+% npm install pwmckenna/node-travis-encrypt
+```
+
 ## CLI
 ```bash
 Usage: travis-encrypt -r [repository slug] -u [username] -p [password]
