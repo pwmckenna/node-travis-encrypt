@@ -15,12 +15,13 @@ npm:
 
 ## CLI
 ```bash
-Usage: travis-encrypt -r [repository slug] -u [username] -p [password]
+Usage: travis-encrypt -r [repository slug] -u [username] -p [password] -a [key]
 
 Options:
   -r, --repo        repository slug                                                   [string]
   -u, --username    github username associated with the pro travis repo               [string]
   -p, --password    github password for the user associated with the pro travis repo  [string]
+  -a, --add         adds it to .travis.yml under key (default: env.global)            [string]
 ```
 
 ##### args
@@ -58,6 +59,12 @@ node_js:
 env:
     global:
         - secure: "XqJtWxYjtjhRO3LzC/iBGLawDP+f/dL6kcUfDzDJPSKhdnXIRQgBE65g58hf1bPh4YowxuyPUnpK5pq6+frYQ6zNsW0AWBMa2dUP1FdSIxdCJNa3UHlMLYhqqECuVvev9A9NCijKBkuOOA+OvNgq9NIQsiS4g+dsaAlpuE72MYc="
+```
+
+##### using --add to populate .travis.yml
+```bash
+travis-encrypt --add -r pwmckenna/node-travis-encrypt ENV1=VALUE1 ENV2=VALUE2
+> Wrote 2 blob(s) to .travis.yml
 ```
 
 ## Module
