@@ -5,11 +5,15 @@ var yargs = require('yargs');
 var encrypt = require('..');
 var path = require('path');
 var split = require('split');
+var deepProp = require('deep-property');
+var yamlread = require('read-yaml');
+var yamlwrite = require('write-yaml');
 require('colors');
 
-var argv = yargs
-    .usage('Usage: $0 -r [repository slug] -u [username] -p [password]')
+var args = yargs.usage('Usage: $0 -r [repository slug] -u [username] -p [password] -a [key]');
+args.help('help');
 
+argv = args
     .string('r')
     .alias('r', 'repo')
     .alias('r', 'repository')
@@ -22,6 +26,10 @@ var argv = yargs
     .string('p')
     .alias('p', 'password')
     .describe('p', 'github password for the user associated with the pro travis repo')
+
+    .string('a')
+    .alias('a', 'add')
+    .describe('a', 'adds it to .travis.yml under key (default: env.global)')
 
     .check(function (args) {
         if ((!args.hasOwnProperty('u') && args.hasOwnProperty('p')) ||
@@ -44,7 +52,50 @@ var encryptData = function (data) {
     });
 };
 
-argv._.forEach(encryptData);
+var encryptAndSaveData = function (data) {
+    var remaining = data.length + 1,
+        blobs = [],
+        config;
+
+    function saveConfig() {
+        var prop = typeof argv.add === 'string' ? argv.add : 'env.global';
+        var env = (deepProp.get(config, prop) || []).concat(blobs);
+        deepProp.set(config, prop, env);
+
+        yamlwrite('.travis.yml', config);
+        console.log('Wrote ' + blobs.length + ' blob(s) to .travis.yml');
+    }
+
+    function onResult(err, res, isConfig) {
+        if (err) {
+            throw err;
+        }
+
+        if (!isConfig) {
+            blobs.push({ secure: res });
+        } else {
+            config = res;
+        }
+
+        if (--remaining === 0) {
+            saveConfig();
+        }
+    }
+
+    yamlread('.travis.yml', function(err, res) {
+        onResult(err, res, true);
+    });
+
+    data.forEach(function(envLine) {
+        encrypt(argv.repo, envLine, argv.username, argv.password, onResult);
+    });
+};
+
+if (argv.add) {
+    encryptAndSaveData(argv._);
+} else {
+    argv._.forEach(encryptData);
+}
 
 process.stdin.on('readable', function () {
     var buf = process.stdin.read();
