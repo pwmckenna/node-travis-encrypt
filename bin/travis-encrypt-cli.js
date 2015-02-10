@@ -3,8 +3,6 @@ process.title = 'travis-encrypt';
 
 var yargs = require('yargs');
 var encrypt = require('..');
-var path = require('path');
-var split = require('split');
 var deepProp = require('deep-property');
 var yamlread = require('read-yaml');
 var yamlwrite = require('write-yaml');
@@ -13,7 +11,7 @@ require('colors');
 var args = yargs.usage('Usage: $0 -r [repository slug] -u [username] -p [password] -a [key]');
 args.help('help');
 
-argv = args
+var argv = args
     .string('r')
     .alias('r', 'repo')
     .alias('r', 'repository')
@@ -32,20 +30,22 @@ argv = args
     .describe('a', 'adds it to .travis.yml under key (default: env.global)')
 
     .check(function (args) {
+        if (!args.hasOwnProperty('r')) {
+            throw new Error('no repository specified');
+        }
         if ((!args.hasOwnProperty('u') && args.hasOwnProperty('p')) ||
             (args.hasOwnProperty('u') && !args.hasOwnProperty('p'))
         ) {
-            throw 'insufficient github credentials';
+            throw new Error('insufficient github credentials');
         }
     })
     .argv;
-
 
 var encryptData = function (data) {
     encrypt(argv.repo, data, argv.username, argv.password, function (err, res) {
         console.log('# ' + data.split('=')[0]);
         if (err) {
-            console.warn(err.toString().red);
+            console.warn(err);
         } else {
             console.log(res.green);
         }
@@ -82,11 +82,11 @@ var encryptAndSaveData = function (data) {
         }
     }
 
-    yamlread('.travis.yml', function(err, res) {
+    yamlread('.travis.yml', function (err, res) {
         onResult(err, res, true);
     });
 
-    data.forEach(function(envLine) {
+    data.forEach(function (envLine) {
         encrypt(argv.repo, envLine, argv.username, argv.password, onResult);
     });
 };
