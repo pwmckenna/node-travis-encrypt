@@ -4,4 +4,12 @@ node_js:
   - '0.12'
   - "4.2"
   - "4.0"
-sudo: false
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+env:
+   global:
+      - CXX=g++-4.8
