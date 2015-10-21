@@ -14,7 +14,7 @@
     ".travis.yml"
   ],
   "author": "Patrick Williams <pwmckenna@gmail.com>",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "readmeFilename": "README.md",
   "main": "lib/travis-encrypt",
   "bin": {
