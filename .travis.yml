@@ -13,3 +13,4 @@ addons:
 env:
    global:
       - CXX=g++-4.8
+sudo: false
