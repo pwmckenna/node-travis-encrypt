@@ -1,6 +1,8 @@
 .editorconfig
+.eslintignore
+.eslintrc
 .gitattributes
 .gitignore
-.jshintrc
-Gruntfile.js
+.travis.yml
+tests
 README.md
