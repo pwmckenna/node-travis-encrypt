@@ -70,13 +70,23 @@ travis-encrypt --add -r pwmckenna/node-travis-encrypt ENV1=VALUE1 ENV2=VALUE2
 ## Module
 ```js
 var encrypt = require('travis-encrypt');
-encrypt('pwmckenna/node-travis-encrypt', 'EXAMPLE_ENV_VARIABLE=asdf', function (err, blob) {
-  // do something with the encrypted data blob...
-});
+encrypt({
+  repo: 'pwmckenna/node-travis-encrypt',
+  data: 'EXAMPLE_ENV_VARIABLE=asdf',
+  function (err, blob) {
+    // do something with the encrypted data blob...
+  }
+);
 
 // also supports encrypting for private travis pro repos,
 // though it needs your github credentials to login to travis pro.
-encrypt('pwmckenna/private-repo', 'EXAMPLE_ENV_VARIABLE=asdf', username, password, function (err, blob) {
-
-});
+encrypt({
+  repo: 'pwmckenna/private-repo',
+  data: 'EXAMPLE_ENV_VARIABLE=asdf',
+  username: 'username',
+  password: 'password',
+  function (err, blob) {
+    // do something with the encrypted data blob...
+  }
+);
 ```
