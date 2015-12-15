@@ -29,6 +29,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "deep-property": "^1.1.0",
+    "lodash.merge": "^3.3.2",
     "read-yaml": "^1.0.0",
     "travis-ci": "^2.0.3",
     "ursa": "^0.9.1",
@@ -38,7 +39,6 @@
   "devDependencies": {
     "eslint": "^1.10.3",
     "istanbul": "^0.4.0",
-    "lodash.merge": "^3.3.2",
     "proxyquire": "^1.7.3",
     "tape": "^4.2.2"
   },

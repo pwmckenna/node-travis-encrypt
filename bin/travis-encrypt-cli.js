@@ -33,11 +33,15 @@ var argv = args
         if (!args.hasOwnProperty('r')) {
             throw new Error('no repository specified');
         }
-        if ((!args.hasOwnProperty('u') && args.hasOwnProperty('p')) ||
-            (args.hasOwnProperty('u') && !args.hasOwnProperty('p'))
-        ) {
+
+        var hasUser = args.hasOwnProperty('u');
+        var hasPass = args.hasOwnProperty('p');
+
+        if ((!hasUser && hasPass) || (hasUser && !hasPass)) {
             throw new Error('insufficient github credentials');
         }
+
+        return true;
     })
     .argv;
 
