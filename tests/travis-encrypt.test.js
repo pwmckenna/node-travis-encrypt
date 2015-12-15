@@ -17,7 +17,7 @@ test('it encrypts for travis pro if username + password is given', function (t) 
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         username: 'pwmckenna',
         password: 'somepass'
@@ -36,7 +36,7 @@ test('it gives error if travis auth fails (for travis pro)', function (t) {
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         username: 'pwmckenna',
         password: 'somepass'
@@ -64,7 +64,7 @@ test('it should handle repo-not-found errors', function (t) {
 
     t.plan(2);
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         username: 'pwmckenna',
         password: 'somepass'
@@ -73,7 +73,7 @@ test('it should handle repo-not-found errors', function (t) {
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR'
     }, function (err) {
         t.equals(err.message, 'repository pwmckenna/node-travis-encrypt not found');
@@ -98,7 +98,7 @@ test('it should handle key errors', function (t) {
 
     t.plan(2);
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         username: 'pwmckenna',
         password: 'somepass'
@@ -107,7 +107,7 @@ test('it should handle key errors', function (t) {
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR'
     }, function (err) {
         t.equals(err.message, 'Some key error');
@@ -120,7 +120,7 @@ test('it requires both username and password to be given', function (t) {
     var encrypt = getTravisMock();
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         password: 'somepass'
     }, function (err) {
@@ -128,7 +128,7 @@ test('it requires both username and password to be given', function (t) {
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         username: 'pwmckenna'
     }, function (err) {
@@ -136,38 +136,38 @@ test('it requires both username and password to be given', function (t) {
     });
 });
 
-test('it requires slug to be given (and be a string)', function (t) {
+test('it requires repo to be given (and be a string)', function (t) {
     t.plan(2);
     var encrypt = getTravisMock();
     encrypt({ data: 'FOO=BAR' }, function (err) {
-        t.equals(err.message, '`slug` must be a string');
+        t.equals(err.message, '`repo` must be a string');
     });
 
-    encrypt({ slug: 13, data: 'FOO=BAR' }, function (err) {
-        t.equals(err.message, '`slug` must be a string');
+    encrypt({ repo: 13, data: 'FOO=BAR' }, function (err) {
+        t.equals(err.message, '`repo` must be a string');
     });
 });
 
-test('it requires slug to contain a slash (/)', function (t) {
+test('it requires repo to contain a slash (/)', function (t) {
     t.plan(2);
     var encrypt = getTravisMock();
-    encrypt({ slug: 'foo' }, function (err) {
-        t.equals(err.message, '`slug` must be in `owner/repo` form');
+    encrypt({ repo: 'foo' }, function (err) {
+        t.equals(err.message, '`repo` must be in `owner/repo` form');
     });
 
-    encrypt({ slug: '/bar' }, function (err) {
-        t.equals(err.message, '`slug` must be in `owner/repo` form');
+    encrypt({ repo: '/bar' }, function (err) {
+        t.equals(err.message, '`repo` must be in `owner/repo` form');
     });
 });
 
 test('it requires data to be given (and be a string)', function (t) {
     t.plan(2);
     var encrypt = getTravisMock();
-    encrypt({ slug: 'foo/bar' }, function (err) {
+    encrypt({ repo: 'foo/bar' }, function (err) {
         t.equals(err.message, '`data` must be a string');
     });
 
-    encrypt({ slug: 'foo/bar', data: 13 }, function (err) {
+    encrypt({ repo: 'foo/bar', data: 13 }, function (err) {
         t.equals(err.message, '`data` must be a string');
     });
 });
@@ -189,7 +189,7 @@ test('it encrypts for travis open-source if no username/password is given', func
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR'
     }, function (err, result) {
         t.notOk(err, 'should not error');
@@ -212,7 +212,7 @@ test('it should catch errors thrown by ursa', function (t) {
     });
 
     encrypt({
-        slug: 'pwmckenna/node-travis-encrypt',
+        repo: 'pwmckenna/node-travis-encrypt',
         data: 'FOO=BAR',
         username: 'pwmckenna',
         password: 'somepass'

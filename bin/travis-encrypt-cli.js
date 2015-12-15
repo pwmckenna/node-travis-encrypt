@@ -47,7 +47,7 @@ var argv = args
 
 function encryptData (data) {
     encrypt({
-        slug: argv.repo,
+        repo: argv.repo,
         data: data,
         username: argv.username,
         password: argv.password,
@@ -91,7 +91,7 @@ function encryptAndSaveData (data) {
 
     data.forEach(function (envLine) {
         encrypt({
-            slug: argv.repo,
+            repo: argv.repo,
             data: envLine,
             username: argv.username,
             password: argv.password,
