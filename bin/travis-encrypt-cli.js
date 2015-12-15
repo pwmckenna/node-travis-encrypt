@@ -30,12 +30,12 @@ var argv = args
     .describe('a', 'adds it to .travis.yml under key (default: env.global)')
 
     .check(function (args) {
-        if (!args.hasOwnProperty('r')) {
+        if (!args.r) {
             throw new Error('no repository specified');
         }
 
-        var hasUser = args.hasOwnProperty('u');
-        var hasPass = args.hasOwnProperty('p');
+        var hasUser = args.u;
+        var hasPass = args.p;
 
         if ((!hasUser && hasPass) || (hasUser && !hasPass)) {
             throw new Error('insufficient github credentials');
