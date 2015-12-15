@@ -31,7 +31,7 @@ test('it gives error if travis auth fails (for travis pro)', function(t) {
         }
     });
 
-    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err, result) {
+    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err) {
         t.ok(err && err.message.indexOf('Bad credentials') !== -1, 'callback called with error');
         t.end();
     });
@@ -54,11 +54,11 @@ test('it should handle repo-not-found errors', function(t) {
     });
 
     t.plan(2);
-    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err, result) {
+    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err) {
         t.equals(err, 'repository pwmckenna/node-travis-encrypt not found');
     });
 
-    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', undef, undef, function(err, result) {
+    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', undef, undef, function(err) {
         t.equals(err, 'repository pwmckenna/node-travis-encrypt not found');
     });
 });
@@ -80,11 +80,11 @@ test('it should handle key errors', function(t) {
     });
 
     t.plan(2);
-    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err, result) {
+    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err) {
         t.equals(err.message, 'Some key error');
     });
 
-    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', undef, undef, function(err, result) {
+    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', undef, undef, function(err) {
         t.equals(err.message, 'Some key error');
     });
 });
@@ -139,7 +139,7 @@ test('it should catch errors thrown by ursa', function(t) {
         }
     });
 
-    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err, result) {
+    encrypt('pwmckenna/node-travis-encrypt', 'FOO=BAR', 'pwmckenna', 'somepass', function(err) {
         t.ok(err, 'should catch and call callback with error');
         t.end();
     });
