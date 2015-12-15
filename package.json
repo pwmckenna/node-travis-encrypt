@@ -18,6 +18,12 @@
     "travis-pro"
   ],
   "author": "Patrick Williams <pwmckenna@gmail.com>",
+  "contributors": [
+    {
+      "name": "Espen Hovlandsdal",
+      "email": "espen@hovlandsdal.com"
+    }
+  ],
   "license": "BSD-3-Clause",
   "readmeFilename": "README.md",
   "main": "lib/travis-encrypt",
@@ -37,6 +43,7 @@
     "yargs": "^3.31.0"
   },
   "devDependencies": {
+    "concat-stream": "^1.5.1",
     "eslint": "^1.10.3",
     "istanbul": "^0.4.0",
     "proxyquire": "^1.7.3",
