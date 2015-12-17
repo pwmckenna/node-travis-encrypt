@@ -4,119 +4,119 @@ var childProc = require('child_process');
 var test = require('tape');
 var concat = require('concat-stream');
 
-test('it shows help on --help', function(t) {
-    var res = spawn(['--help']);
+test('it shows help on --help', function (t) {
+  var res = spawn(['--help']);
 
-    t.equals(res.status, 0, 'status could should be 0');
-    t.ok(res.stdout.toString().indexOf('Usage: ') === 0, 'contains usage');
-    t.ok(res.stdout.toString().indexOf('--help') !== -1, 'contains --help');
+  t.equals(res.status, 0, 'status could should be 0');
+  t.ok(res.stdout.toString().indexOf('Usage: ') === 0, 'contains usage');
+  t.ok(res.stdout.toString().indexOf('--help') !== -1, 'contains --help');
+  t.end();
+});
+
+test('it requires repository slug (--r, --repo, --repository)', function (t) {
+  var res = spawn([]);
+
+  t.equal(res.status, 1, 'status could should be 1');
+  bufferContains(t, res.stderr, 'no repository specified');
+
+  res = spawn(['-r']);
+  t.equal(res.status, 1, 'status could should be 1');
+  bufferContains(t, res.stderr, 'no repository specified');
+
+  t.end();
+});
+
+test('it requires both user and pass if only user is specified', function (t) {
+  var res = spawn(['-r', 'foo/bar', '-u', 'foo']);
+
+  t.equal(res.status, 1, 'status could should be 1');
+  bufferContains(t, res.stderr, 'insufficient github credentials');
+
+  t.end();
+});
+
+test('it requires both user and pass if only password is specified', function (t) {
+  var res = spawn(['-r', 'foo/bar', '-p', 'foo']);
+
+  t.equal(res.status, 1, 'status could should be 1');
+  bufferContains(t, res.stderr, 'insufficient github credentials');
+
+  t.end();
+});
+
+test('it encrypts every data pair given', function (t) {
+  var res = spawn(['-r', 'pwmckenna/node-travis-encrypt', 'FOO=bar', 'BAR=foo']);
+
+  t.equal(res.status, 0, 'status could should be 0');
+  bufferContains(t, res.stdout, '# FOO');
+  bufferContains(t, res.stdout, '# BAR');
+
+  t.end();
+});
+
+test('it encrypts from stdin', function (t) {
+  var envVars = fs.createReadStream(path.join(__dirname, 'fixtures', 'env-vars'));
+  var script = path.join(__dirname, '..', 'bin', 'travis-encrypt-cli.js');
+  var proc = childProc.spawn('node', [script, '-r', 'pwmckenna/node-travis-encrypt']);
+
+  proc.stdout.pipe(concat(function (res) {
+    bufferContains(t, res, '# FOO');
+    bufferContains(t, res, '# BAR');
     t.end();
+  }));
+
+  proc.stdin.resume();
+  envVars.pipe(proc.stdin, { end: false });
 });
 
-test('it requires repository slug (--r, --repo, --repository)', function(t) {
-    var res = spawn([]);
+test('it can write given data to .travis.yml', function (t) {
+  var fixturesDir = path.join(__dirname, 'fixtures');
+  var target = path.join(fixturesDir, '.travis.yml');
+  var source = path.join(fixturesDir, 'travis.original.yml');
 
-    t.equal(res.status, 1, 'status could should be 1');
-    bufferContains(t, res.stderr, 'no repository specified');
+  maybeUnlink(target);
+  fs.writeFileSync(
+    target,
+    fs.readFileSync(source)
+  );
 
-    res = spawn(['-r']);
-    t.equal(res.status, 1, 'status could should be 1');
-    bufferContains(t, res.stderr, 'no repository specified');
+  var res = spawn(['-r', 'pwmckenna/node-travis-encrypt', '--add', 'FOO=bar', 'BAR=foo'], {
+    cwd: path.join(__dirname, 'fixtures')
+  });
 
-    t.end();
+  t.equal(res.status, 0, 'status could should be 0');
+  bufferContains(t, res.stdout, 'Wrote 2 blob(s)');
+
+  var edited = fs.readFileSync(target);
+  bufferContains(t, edited, '- secure: ');
+
+  maybeUnlink(target);
+
+  t.end();
 });
 
-test('it requires both user and pass if only user is specified', function(t) {
-    var res = spawn(['-r', 'foo/bar', '-u', 'foo']);
+function maybeUnlink (target) {
+  try {
+    fs.unlinkSync(target);
+  } catch (e) {}
+}
 
-    t.equal(res.status, 1, 'status could should be 1');
-    bufferContains(t, res.stderr, 'insufficient github credentials');
+function spawn (args, opts) {
+  var script = path.join(__dirname, '..', 'bin', 'travis-encrypt-cli.js');
+  return childProc.spawnSync('node', [script].concat(args), opts || {});
+}
 
-    t.end();
-});
+function bufferContains (t, buffer, str) {
+  var asString = buffer.toString();
+  var containsStr = asString.indexOf(str) !== -1;
 
-test('it requires both user and pass if only password is specified', function(t) {
-    var res = spawn(['-r', 'foo/bar', '-p', 'foo']);
-
-    t.equal(res.status, 1, 'status could should be 1');
-    bufferContains(t, res.stderr, 'insufficient github credentials');
-
-    t.end();
-});
-
-test('it encrypts every data pair given', function(t) {
-    var res = spawn(['-r', 'pwmckenna/node-travis-encrypt', 'FOO=bar', 'BAR=foo']);
-
-    t.equal(res.status, 0, 'status could should be 0');
-    bufferContains(t, res.stdout, '# FOO');
-    bufferContains(t, res.stdout, '# BAR');
-
-    t.end();
-});
-
-test('it encrypts from stdin', function(t) {
-    var envVars = fs.createReadStream(path.join(__dirname, 'fixtures', 'env-vars'));
-    var script = path.join(__dirname, '..', 'bin', 'travis-encrypt-cli.js');
-    var proc = childProc.spawn('node', [script, '-r', 'pwmckenna/node-travis-encrypt']);
-
-    proc.stdout.pipe(concat(function(res) {
-        bufferContains(t, res, '# FOO');
-        bufferContains(t, res, '# BAR');
-        t.end();
-    }));
-
-    proc.stdin.resume();
-    envVars.pipe(proc.stdin, { end: false });
-});
-
-test('it can write given data to .travis.yml', function(t) {
-    var fixturesDir = path.join(__dirname, 'fixtures');
-    var target = path.join(fixturesDir, '.travis.yml');
-    var source = path.join(fixturesDir, 'travis.original.yml');
-
-    maybeUnlink(target);
-    fs.writeFileSync(
-        target,
-        fs.readFileSync(source)
+  if (!containsStr) {
+    return t.fail(
+      'String did not contain substring. Expected:\n' +
+      '"' + str + '", got:\n' +
+      '"' + asString + '"'
     );
+  }
 
-    var res = spawn(['-r', 'pwmckenna/node-travis-encrypt', '--add', 'FOO=bar', 'BAR=foo'], {
-        cwd: path.join(__dirname, 'fixtures')
-    });
-
-    t.equal(res.status, 0, 'status could should be 0');
-    bufferContains(t, res.stdout, 'Wrote 2 blob(s)');
-
-    var edited = fs.readFileSync(target);
-    bufferContains(t, edited, '- secure: ');
-
-    maybeUnlink(target);
-
-    t.end();
-});
-
-function maybeUnlink(target) {
-    try {
-        fs.unlinkSync(target);
-    } catch(e) {}
-}
-
-function spawn(args, opts) {
-    var script = path.join(__dirname, '..', 'bin', 'travis-encrypt-cli.js');
-    return childProc.spawnSync('node', [script].concat(args), opts || {});
-}
-
-function bufferContains(t, buffer, str) {
-    var asString = buffer.toString();
-    var containsStr = asString.indexOf(str) !== -1;
-
-    if (!containsStr) {
-        return t.fail(
-            'String did not contain substring. Expected:\n' +
-            '"' + str + '", got:\n' +
-            '"' + asString + '"'
-        );
-    }
-
-    t.assert(containsStr, 'buffer should contain "' + str + '"');
+  t.assert(containsStr, 'buffer should contain "' + str + '"');
 }
