@@ -4,7 +4,6 @@ All notable changes since 1.1.2 will be documented in this file.
 ## [2.0.0] - 2015-12-16
 
 ### Changed
-- **Breaking change**: Minimum node.js version is now set to 0.12.
 - **Breaking change**: Module API now accepts an options object instead of individual arguments. See README.
 - **Breaking change**: Ability to specify destination key in `.travis.yml` when using the `--add` option has been removed.
 - Dependencies updated to latest versions.
