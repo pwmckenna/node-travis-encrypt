@@ -15,13 +15,13 @@ npm:
 
 ## CLI
 ```bash
-Usage: travis-encrypt -r [repository slug] -u [username] -p [password] -a [key]
+Usage: travis-encrypt -r [repository slug] -u [username] -p [password] -a
 
 Options:
   -r, --repo        repository slug                                                   [string]
   -u, --username    github username associated with the pro travis repo               [string]
   -p, --password    github password for the user associated with the pro travis repo  [string]
-  -a, --add         adds it to .travis.yml under key (default: env.global)            [string]
+  -a, --add         adds it to .travis.yml under `env.global`                         [boolean]
 ```
 
 ##### args
