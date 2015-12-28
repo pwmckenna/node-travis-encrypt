@@ -7,7 +7,8 @@
     "url": "git://github.com/pwmckenna/node-travis-encrypt.git"
   },
   "scripts": {
-    "test": "istanbul cover tape tests/**/*.test.js"
+    "test": "istanbul cover tape tests/**/*.test.js",
+    "posttest": "semistandard"
   },
   "keywords": [
     ".travis.yml",
@@ -17,6 +18,12 @@
     "travis-pro"
   ],
   "author": "Patrick Williams <pwmckenna@gmail.com>",
+  "contributors": [
+    {
+      "name": "Espen Hovlandsdal",
+      "email": "espen@hovlandsdal.com"
+    }
+  ],
   "license": "BSD-3-Clause",
   "readmeFilename": "README.md",
   "main": "lib/travis-encrypt",
@@ -26,25 +33,23 @@
   "homepage": "https://github.com/pwmckenna/node-travis-encrypt",
   "bugs": "https://github.com/pwmckenna/node-travis-encrypt/issues",
   "dependencies": {
-    "colors": "~0.6.0-1",
+    "colors": "^1.1.2",
     "deep-property": "^1.1.0",
+    "lodash.merge": "^3.3.2",
     "read-yaml": "^1.0.0",
     "travis-ci": "^2.0.3",
     "ursa": "^0.9.1",
-    "write-yaml": "^0.1.2",
-    "yargs": "^1.3.3"
+    "write-yaml": "^0.2.2",
+    "yargs": "^3.31.0"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "0.1.1rc6",
-    "grunt-release": "^0.7.0",
+    "concat-stream": "^1.5.1",
     "istanbul": "^0.4.0",
-    "lodash.merge": "^3.3.2",
-    "matchdep": "~0.1.1",
     "proxyquire": "^1.7.3",
+    "semistandard": "*",
     "tape": "^4.2.2"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   }
 }

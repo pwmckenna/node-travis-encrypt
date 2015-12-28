@@ -1,9 +1,10 @@
+# .travis.yml used for testing that the CLI tool can write secure env vars to it
 language: node_js
 node_js:
   - '0.10'
   - '0.12'
-  - '4'
-  - '5'
+  - '4.2'
+  - '4.0'
 addons:
   apt:
     sources:
@@ -11,6 +12,5 @@ addons:
     packages:
       - g++-4.8
 env:
-   global:
-      - CXX=g++-4.8
-sudo: false
+  global:
+    - CXX=g++-4.8
