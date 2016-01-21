@@ -25,9 +25,9 @@ var argv = args
   .alias('p', 'password')
   .describe('p', 'github password for the user associated with the pro travis repo')
 
-  .boolean('a')
+  .string('a')
   .alias('a', 'add')
-  .describe('a', 'adds it to .travis.yml under `env.global`')
+  .describe('a', 'adds it to .travis.yml under the given key (default: `env.global`)')
 
   .check(function (args) {
     if (!args.r) {
@@ -61,14 +61,23 @@ function encryptData (data) {
   });
 }
 
-function encryptAndSaveData (data) {
+function makeArray (arr) {
+  if (!arr || typeof arr.length === 'undefined') {
+    return [ arr ];
+  }
+  return arr;
+}
+
+function encryptAndSaveData (data, prop) {
   var remaining = data.length;
   var blobs = [];
   var config;
 
-  function saveConfig () {
-    var prop = 'env.global';
-    var env = (deepProp.get(config, prop) || []).concat(blobs);
+  function saveConfig (prop) {
+    prop = prop || 'env.global';
+
+    var existingProps = makeArray(deepProp.get(config, prop) || []);
+    var env = existingProps.concat(blobs);
     deepProp.set(config, prop, env);
 
     yamlwrite.sync('.travis.yml', config);
@@ -83,7 +92,7 @@ function encryptAndSaveData (data) {
     blobs.push({ secure: res });
 
     if (--remaining === 0) {
-      saveConfig();
+      saveConfig(prop);
     }
   }
 
@@ -100,7 +109,7 @@ function encryptAndSaveData (data) {
 }
 
 if (argv.add) {
-  encryptAndSaveData(argv._);
+  encryptAndSaveData(argv._, typeof argv.add === 'string' ? argv.add : null);
 } else {
   argv._.forEach(encryptData);
 }

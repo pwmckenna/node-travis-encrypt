@@ -81,13 +81,40 @@ test('it can write given data to .travis.yml', function (t) {
     fs.readFileSync(source)
   );
 
-  spawn(['-r', 'pwmckenna/node-travis-encrypt', '--add', 'FOO=bar', 'BAR=foo'], {
+  spawn(['--add', '-r', 'pwmckenna/node-travis-encrypt', 'FOO=bar', 'BAR=foo'], {
     cwd: path.join(__dirname, 'fixtures')
   }, function (res) {
     t.equal(res.status, 0, 'status could should be 0');
     bufferContains(t, res.stdout, 'Wrote 2 blob(s)');
 
     var edited = fs.readFileSync(target);
+    bufferContains(t, edited, '- secure: ');
+
+    maybeUnlink(target);
+
+    t.end();
+  });
+});
+
+test('it can write given data to a key in .travis.yml', function (t) {
+  var fixturesDir = path.join(__dirname, 'fixtures');
+  var target = path.join(fixturesDir, '.travis.yml');
+  var source = path.join(fixturesDir, 'travis.original.yml');
+
+  maybeUnlink(target);
+  fs.writeFileSync(
+    target,
+    fs.readFileSync(source)
+  );
+
+  spawn(['-r', 'pwmckenna/node-travis-encrypt', '--add', 'addons.addTest', 'testing'], {
+    cwd: path.join(__dirname, 'fixtures')
+  }, function (res) {
+    t.equal(res.status, 0, 'status could should be 0');
+    bufferContains(t, res.stdout, 'Wrote 1 blob(s)');
+
+    var edited = fs.readFileSync(target);
+    bufferContains(t, edited, 'addTest:');
     bufferContains(t, edited, '- secure: ');
 
     maybeUnlink(target);
