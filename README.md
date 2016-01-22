@@ -21,7 +21,7 @@ Options:
   -r, --repo        repository slug                                                   [string]
   -u, --username    github username associated with the pro travis repo               [string]
   -p, --password    github password for the user associated with the pro travis repo  [string]
-  -a, --add         adds it to .travis.yml under `env.global`                         [boolean]
+  -a, --add         add it to .travis.yml under the given key or `env.global`         [string]
 ```
 
 ##### args
@@ -65,6 +65,12 @@ env:
 ```bash
 travis-encrypt --add -r pwmckenna/node-travis-encrypt ENV1=VALUE1 ENV2=VALUE2
 > Wrote 2 blob(s) to .travis.yml
+```
+
+##### using --add to populate .travis.yml with Heroku deploy key
+```bash
+travis-encrypt --add deploy.api_key -r pwmckenna/node-travis-encrypt "<Heroku API key>"
+> Wrote 1 blob(s) to .travis.yml
 ```
 
 ## Module
