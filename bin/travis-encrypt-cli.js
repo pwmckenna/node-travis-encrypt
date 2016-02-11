@@ -108,8 +108,8 @@ function encryptAndSaveData (data, prop) {
   });
 }
 
-if (argv.add) {
-  encryptAndSaveData(argv._, typeof argv.add === 'string' ? argv.add : null);
+if (typeof argv.add !== 'undefined') {
+  encryptAndSaveData(argv._, typeof argv.add === 'string' && argv.add !== '' ? argv.add : null);
 } else {
   argv._.forEach(encryptData);
 }

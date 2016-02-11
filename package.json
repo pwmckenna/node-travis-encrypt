@@ -40,7 +40,7 @@
     "travis-ci": "^2.0.3",
     "ursa": "^0.9.1",
     "write-yaml": "^0.2.2",
-    "yargs": "^3.31.0"
+    "yargs": "^3.32.0"
   },
   "devDependencies": {
     "concat-stream": "^1.5.1",
